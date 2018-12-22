@@ -78,7 +78,7 @@ This is an implementation of a [method described by Philip Koopman](https://bett
 
 Each module has a unique number. Numbers can be declared as constants by using an enum. As many as 32 modules can be defined.
 
-```
+```C
 const uint8_t kModukeCount = 3;
 enum { CAN_ISR_MODULE, SERVO_MODULE, LED_MODULE, DETECTION_MODULE };
 ```
