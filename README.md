@@ -1,3 +1,5 @@
+[![GitHub release](https://img.shields.io/github/release/Locoduino/KeepMeAlive.svg)](https://github.com/Locoduino/KeepMeAlive/releases/latest) [![GitHub commits](https://img.shields.io/github/commits-since/Locoduino/KeepMeAlive/1.0.svg)](https://github.com/Locoduino/ScheduleTable/compare/1.0...master)
+
 # KeepMeAlive
 KeepMeAlive is an Arduino Library that manages the watchdog timer. The watchdog timer is a safety mechanism that reset the Arduino when it appears the software is locked because of a software or hardware fault.
 ## Changelog
