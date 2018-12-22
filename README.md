@@ -1,5 +1,5 @@
 # KeepMeAlive
-KeepMeAlive is an Arduino Library that manages the watchdog timer. The watchdog timer is a safety mechanism that reset the Arduino when it appears the software is locked because a software or hardware fault.
+KeepMeAlive is an Arduino Library that manages the watchdog timer. The watchdog timer is a safety mechanism that reset the Arduino when it appears the software is locked because of a software or hardware fault.
 ## Changelog
 - 1.0 - initial version, support of the ATMega 328 only (Arduino Uno, Arduino Nano and Arduino Pro Mini).
 
