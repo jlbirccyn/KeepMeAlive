@@ -70,6 +70,25 @@ if ```doResetCPU``` or ```attachInterrupt``` have been called, ```enable``` enab
 
 ```reset``` resets the watchdog timer. It has to be called in the sketch with a period lower than the programmed delay so that the normal execution of the sketch does not lead to a reset or to a watchdog interrupt.
 
+## Advanced use : software modules
+
+This is an implementation of a [method described by Philip Koopman](https://betterembsw.blogspot.com/2014/05/proper-watchdog-timer-use.html). The goal is to reset the watchdog if an only if each software module has been visited in the loop. This can also encompass interrupt service routines if any.
+
+Each module has a unique number. Numbers can be declared as constants by using an enum. As many as 32 modules can be defined.
+
+```
+const uint8_t kModukeCount = 3;
+enum { CAN_ISR_MODULE, SERVO_MODULE, LED_MODULE, DETECTION_MODULE };
+```
+
+### setModuleCount(*count*)
+
+Set the number of module used. By default 0 modules are set. ```count``` should have a value between 1 and 32. If a value outside this interval is given, ```setModuleCOunt``` has no effect.
+
+### alive(*module*)
+
+```alive``` reports a module is alive. *```module```* shall have a value between 0 and the number of modules minus one. If a value outside this interval is given, ```alive``` has no effect. When all the modules have reported that they are alive, the watchdog is reset and module reporting is cleared.
+
 ## Note about the behavior of the watchdog timer on the ATMega 328.
 
 When both CPU reset and interrupt are enabled, the interrupt has priority and, when the delay has elapsed, will be executed without a reset. Once the interrupt has been executed, the CPU returns to the execution of the main program and the watchdog timer delay elapses a second time to lead to the reset.

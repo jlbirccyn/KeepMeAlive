@@ -33,8 +33,15 @@ private:
   uint16_t          mDelay;
   bool              mResetCPU:1;
   bool              mEnabled:1;
+  uint8_t           mResetVectorSize:6;
+  uint32_t          mResetVector;
 
   uint8_t computeActualDelay();
+
+  void initResetVector()
+  {
+    mResetVector = 0xFFFFFFFF >> (32 - mResetVectorSize);
+  }
 
 public:
   /* Constructor, no interrupt attached, default delay set to 10000 */
@@ -42,7 +49,9 @@ public:
     mInterruptRoutine(NULL),
     mDelay(10000),
     mResetCPU(false),
-    mEnabled(false)
+    mEnabled(false),
+    mResetVectorSize(0),
+    mResetVector(0)
   {}
 
   /*
@@ -105,6 +114,19 @@ public:
    * the sketch does not lead to a reset or to a watchdog interrupt.
    */
   void reset();
+
+  /*
+   * alive notifies a module is alived. Each module is identified by an integer
+   * ranging from 0 to 31. Each module has a bit assigned in the reset vector.
+   * alive clear the bit and when all bits are cleared, the watchdog is reset
+   * and the vector is set.
+   */
+  void alive(uint8_t inModuleNumber);
+
+  /*
+   * setModuleCount sets the number of modules, from 1 to 32
+   */
+  void setModuleCount(uint8_t inModuleCount);
 
   /*
    * interruptAttached returns the pointer to the interruption function

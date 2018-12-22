@@ -91,4 +91,34 @@ void WatchdogTimerClass::reset()
   wdt_reset();
 }
 
+/*
+ * alive notifies a module is alived. Each module is identified by an integer
+ * ranging from 0 to 31. Each module has a bit assigned in the reset vector.
+ * alive clear the bit and when all bits are cleared, the watchdog is reset
+ * and the vector is set.
+ */
+void WatchdogTimerClass::alive(uint8_t inModuleNumber)
+{
+  if (inModuleNumber < mResetVectorSize) {
+    mResetVector &= ~(1 << inModuleNumber);
+    if (mResetVector == 0) {
+      /* All modules acknowledge their liveness */
+      reset();
+      initResetVector();
+    }
+  }
+}
+
+/*
+ * setModuleCount sets the number of modules, from 1 to 32
+ */
+void WatchdogTimerClass::setModuleCount(uint8_t inModuleCount)
+{
+  if (inModuleCount >= 1 && inModuleCount <= 32) {
+    mResetVectorSize = inModuleCount;
+    initResetVector();
+  }
+}
+
+
 WatchdogTimerClass watchdogTimer;
